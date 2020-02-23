@@ -1,0 +1,10 @@
+.StLots {
+    height: 100%;
+    background-color: rgb(171, 173, 169);
+    border-radius: 2mm;
+    display: block;
+}
+
+.butonsDiv {
+    background-color: aqua;
+}

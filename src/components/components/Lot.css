@@ -1,0 +1,46 @@
+.Lot {
+    margin: 8px 4px;
+    background-color: rgb(157, 219, 230);
+    height: 160px;
+    border-radius: 10mm;
+    display: grid;
+    
+        grid-template-areas: 
+        "i_1 i_2 i_3 i_4 d";  
+            grid-template-columns: 2fr 2fr 2fr 2fr 8fr;
+}
+
+.i_1 {
+    grid-area: i_1;
+    border: solid rgb(173, 20, 211);
+    border-radius: 10mm;
+    margin: 4px 2px;
+}
+
+.i_2 {
+    grid-area: i_2;
+    border: solid rgb(173, 20, 211);
+    border-radius: 10mm;
+    margin: 4px 2px;
+}
+
+.i_3 {
+    grid-area: i_3;
+    border: solid rgb(173, 20, 211);
+    border-radius: 10mm;
+    margin: 4px 2px;
+}
+
+.i_4 {
+    grid-area: i_4;
+    border: solid rgb(173, 20, 211);
+    border-radius: 10mm;
+    margin: 4px 2px;
+}
+
+.d {
+    grid-area: d;
+    border: solid rgb(173, 20, 211);
+    border-radius: 10mm;
+    margin: 4px 2px;
+}

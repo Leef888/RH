@@ -10,7 +10,7 @@ function StLots(props) {
         <div className="StLots">
             <div>Intro</div>
             <div className="butonsDiv">
-                <button onCklik={props.addStLot} value="">Add lot</button>
+                <button onClick={props.addStLot} value="">Add lot</button>
             </div>
             {lotArea}
             <div className="">end</div>

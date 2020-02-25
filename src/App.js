@@ -11,7 +11,7 @@ function App(props) {
       <div className="App">
         <NavBar className="navBar" />
         <div className="content">
-          <Route path='/StLots' render={() => <StLots stLotsData={props.stLotsData} addStLot={props.addStLot} />} />
+          <Route path='/StLots' render={() => <StLots stLotsData={props.state.stLotsData} addStLot={props.addStLot} />} />
           <Route path='/Contacts' render={() => <Contacts />} />
         </div>
       </div>

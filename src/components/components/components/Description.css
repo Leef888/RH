@@ -1,6 +1,6 @@
 .d {
     grid-area: d;
-    border: solid rgb(173, 20, 211);
+    /* border: solid rgb(173, 20, 211); */
     border-radius: 10mm;
     margin: 4px 2px;
 }

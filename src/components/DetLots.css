@@ -1,8 +1,9 @@
-.Contacts {
+.DetLots {
     min-height: 100%;
     max-height: max-content;
     width: 100%;
-    background-color: rgb(240, 140, 202);
+    background-color: rgb(178, 233, 124);
+    display: block;
     text-align: center;
     position: absolute;
     top: 62px;

@@ -1,6 +1,8 @@
 .Lot {
-    margin: 8px 4px;
-    background-color: rgb(157, 219, 230);
+    margin: 12px 6px;
+    background-color: transparent;
+    border-top: 1px solid black;
+    border-bottom: 1px solid black;
     height: 160px;
     border-radius: 10mm;
     display: grid;
@@ -12,35 +14,35 @@
 
 .i_1 {
     grid-area: i_1;
-    border: solid rgb(173, 20, 211);
+    /* border: solid rgb(173, 20, 211); */
     border-radius: 10mm;
     margin: 4px 2px;
 }
 
 .i_2 {
     grid-area: i_2;
-    border: solid rgb(173, 20, 211);
+    /* border: solid rgb(173, 20, 211); */
     border-radius: 10mm;
     margin: 4px 2px;
 }
 
 .i_3 {
     grid-area: i_3;
-    border: solid rgb(173, 20, 211);
+    /* border: solid rgb(173, 20, 211); */
     border-radius: 10mm;
     margin: 4px 2px;
 }
 
 .i_4 {
     grid-area: i_4;
-    border: solid rgb(173, 20, 211);
+    /* border: solid rgb(173, 20, 211); */
     border-radius: 10mm;
     margin: 4px 2px;
 }
 
 .d {
     grid-area: d;
-    border: solid rgb(173, 20, 211);
+    /* border: solid rgb(173, 20, 211); */
     border-radius: 10mm;
     margin: 4px 2px;
 }

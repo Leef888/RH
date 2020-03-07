@@ -1,24 +1,28 @@
-.NavBar {
-    background-color: rgb(171, 173, 169);
-    height: 100%;
-    width: 190px;
-    position: fixed;
-    border-radius: 2mm;
-    display: grid;
-    
-        grid-template-areas: 
-        "n"
-        "n";  
-            grid-template-rows: 60px;
+.navBarNavButtons {
+    color: white;
+    background-color: transparent;
+    text-decoration: none;
+    height: 30px;
+    width: 8rem;
+    border-color: transparent;
+    padding: 0;
+    margin: 0;
+    border: 0;
+    font-size: 0.9rem;
 }
 
-.NavBar .NavLink {
-    grid-area: n;
-    border-radius: 2mm;
+.homeButton {
+    color: white;
+    background-color: transparent;
+    border-color: transparent;
 }
 
-.NavBar .div {
-    border-radius: 2mm;
-    height: 60px;
-    margin: 40px 2px;
+.navBarNavButtons:hover,
+.navBarNavButtons:active {
+    color: orange;
+}
+
+.homeButton:hover,
+.homeButton:active {
+    color: orange;
 }

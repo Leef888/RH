@@ -2,6 +2,7 @@ import './index.css';
 import * as serviceWorker from './serviceWorker';
 import state from './state';
 import { reRender } from './render';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 reRender(state);
 

@@ -8,9 +8,9 @@ function StLots(props) {
 
     return (
         <div className="StLots">
-            <div>Intro</div>
-            <div className="butonsDiv">
-                <button onClick={props.addStLot} value="">Add lot</button>
+            <div className="intro">Intro</div>
+            <div>
+                <button onClick={props.addStLot}>Add lot</button>
             </div>
             {lotArea}
             <div className="">end</div>

@@ -10,10 +10,10 @@ function Home(props) {
                 <h1 className="h">Вітаємо Вас на сайті ремонту стіральних машин!</h1>
             </header>
             <div>
-                <p className="p">Ми можемо запропонувати Вам оглянути вибір з стіральних машин, які були в користуванні, відремонтованих нами на сторінці: <button onClick={props.displayStLots}>StLots</button>.</p>                
+                <p className="p">Ми можемо запропонувати Вам оглянути вибір з стіральних машин, які були в користуванні, відремонтованих нами на сторінці: <button onClick={props.displayPageOne}>Page One</button>.</p>                
             </div>
             <div>
-                <p className="p">Якщо Вам потрібно придбати деталі до стіральних машин, список наявних ви знайдете на сторінці: <button onClick={props.displayDetLots}>DetLots</button>.</p>
+                <p className="p">Якщо Вам потрібно придбати деталі до стіральних машин, список наявних ви знайдете на сторінці: <button onClick={props.displayPageTwo}>Page Two</button>.</p>
             </div>
             <div>
                 <p className="p">Також у нас в майстерні можна привести в працездатний стан іншу побутову техніку. Яку саме і номер телефону, потрібного Вам майстра, Ви знайдете на сторінці: <button onClick={props.displayContacts}>Contacts</button>.</p>

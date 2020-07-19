@@ -1,9 +1,10 @@
 import React from 'react';
 import './Image_3.css';
 
-function Image3() {
+function Image3(props) {
+    let src = "http://localhost:3001" + props.url
     return (
-        <div className="i_3">Image_3</div>
+        <img src={src} alt='imageThree' className="i_3"></img>
     )
 }
 

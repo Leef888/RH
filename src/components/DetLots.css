@@ -8,3 +8,60 @@
     position: absolute;
     top: 62px;
 }
+
+.lotForm {
+    margin: 12px 6px;
+    background-color: transparent;
+    border-top: 1px solid black;
+    border-bottom: 1px solid black;
+    height: 160px;
+    border-radius: 10mm;
+    display: grid;
+    
+        grid-template-areas: 
+        "selectedImage_1 selectedImage_2 selectedImage_3 selectedImage_4 descriptionForm";  
+            grid-template-columns: 2fr 2fr 2fr 2fr 8fr;
+}
+
+.selectedImage_1 {
+    grid-area: selectedImage_1;
+    /* border: solid rgb(173, 20, 211); */
+    border-radius: 10mm;
+    margin: 4px 2px;
+    width: 160px;
+    max-height: 150px;
+}
+
+.selectedImage_2 {
+    grid-area: selectedImage_2;
+    /* border: solid rgb(173, 20, 211); */
+    border-radius: 10mm;
+    margin: 4px 2px;
+    width: 160px;
+    max-height: 150px;
+}
+
+.selectedImage_3 {
+    grid-area: selectedImage_3;
+    /* border: solid rgb(173, 20, 211); */
+    border-radius: 10mm;
+    margin: 4px 2px;
+    width: 160px;
+    max-height: 150px;
+}
+
+.selectedImage_4 {
+    grid-area: selectedImage_4;
+    /* border: solid rgb(173, 20, 211); */
+    border-radius: 10mm;
+    margin: 4px 2px;
+    width: 160px;
+    max-height: 150px;
+}
+
+.descriptionForm {
+    grid-area: descriptionForm;
+    /* border: solid rgb(173, 20, 211); */
+    border-radius: 10mm;
+    margin: 4px 2px;
+}

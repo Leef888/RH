@@ -1,9 +1,10 @@
 import React from 'react';
 import './Description.css';
 
-function Description() {
+function Description(props) {
+    let desc = props.desc;
     return (
-        <div className="d">Description</div>
+        <div className="d">{desc}</div>
     )
 }
 

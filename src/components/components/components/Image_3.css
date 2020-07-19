@@ -2,4 +2,6 @@
     /* border: solid rgb(173, 20, 211); */
     border-radius: 10mm;
     margin: 4px 2px;
+    width: 160px;
+    max-height: 150px;
 }

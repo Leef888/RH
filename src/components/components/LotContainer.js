@@ -1,22 +1,36 @@
-import React from 'react';
 import Lot from './Lot';
+import {connect} from 'react-redux';
 import {
-    deleteLotActionCreator
+    deleteLotOnPageOneThunkCreator,
+    deleteLotOnPageTwoThunkCreator
 } from '../../redux/reducer';
 
-function LotContainer(props) {
-    let deleteButtonClicked = () => {
-        props.dispatch(deleteLotActionCreator(props.id))
+let mapStateToProps = (state, ownProps) => {
+    return {
+        content: state.state.content[0],
+        id: ownProps.id,
+        p_1: ownProps.p_1,
+        p_2: ownProps.p_2,
+        p_3: ownProps.p_3,
+        p_4: ownProps.p_4,
+        desc: ownProps.desc,
+        cookies: ownProps.cookies,
+        isAuth: ownProps.isAuth
     }
-    return (<Lot
-        id={props.id}
-        p_1={props.p_1}
-        p_2={props.p_2}
-        p_3={props.p_3}
-        p_4={props.p_4}
-        desc={props.desc}
-        deleteButtonClicked={deleteButtonClicked}
-    />)
-}
+};
+
+let mapDispatchToProps = (dispatch) => {
+    return {
+        deleteButtonClicked: (id, content, cookies) => {
+            if (content === "PageOne") {
+                dispatch(deleteLotOnPageOneThunkCreator(id, cookies))
+            } else if (content === "PageTwo") {
+                dispatch(deleteLotOnPageTwoThunkCreator(id, cookies))
+            }
+        }
+    }
+};
+
+const LotContainer = connect(mapStateToProps, mapDispatchToProps)(Lot);
 
 export default LotContainer;

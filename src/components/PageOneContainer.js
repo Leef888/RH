@@ -6,35 +6,46 @@ import {
     imageThreeOnPageOneSelectedActionCreator,
     imageFourOnPageOneSelectedActionCreator,
     inputOnPageOneChangedActionCreator,
-    addLotOnPageOneActionCreator
+    addLotOnPageOneThunkCreator,
+    resetLotDataOnPageOneActionCreator
 } from '../redux/reducer';
 
-let mapStateToProps = (state) => {
+let mapStateToProps = (state, ownProps) => {
     return {
+        isAuth: state.state.isAuth,
         lotOnPageOneData: state.state.lotOnPageOneData,
-        pageOneData: state.state.pageOneData
+        pageOneData: state.state.pageOneData,
+        content: state.state.content[0],
+        cookies: ownProps.cookies
     }
 }
 
 let mapDispatchToProps = (dispatch) => {
     return {
         imageOneOnPageOneSelected: (e) => {
-            dispatch(imageOneOnPageOneSelectedActionCreator(e))
+            dispatch(imageOneOnPageOneSelectedActionCreator(e));
+            e.target.value = null
         },
         imageTwoOnPageOneSelected: (e) => {
-            dispatch(imageTwoOnPageOneSelectedActionCreator(e))
+            dispatch(imageTwoOnPageOneSelectedActionCreator(e));
+            e.target.value = null;
         },
         imageThreeOnPageOneSelected: (e) => {
-            dispatch(imageThreeOnPageOneSelectedActionCreator(e))
+            dispatch(imageThreeOnPageOneSelectedActionCreator(e));
+            e.target.value = null;
         },
         imageFourOnPageOneSelected: (e) => {
-            dispatch(imageFourOnPageOneSelectedActionCreator(e))
+            dispatch(imageFourOnPageOneSelectedActionCreator(e));
+            e.target.value = null;
         },
         inputOnPageOneChanged: (e) => {
             dispatch(inputOnPageOneChangedActionCreator(e))
         },
-        addLotOnPageOne: () => {
-            dispatch(addLotOnPageOneActionCreator())
+        resetLotDataOnPageOne: () => {
+            dispatch(resetLotDataOnPageOneActionCreator())
+        },
+        addLotOnPageOne: (state, cookies) => {
+            dispatch(addLotOnPageOneThunkCreator(state, cookies))
         }
     }
 }

@@ -6,13 +6,16 @@ import {
     imageThreeOnPageTwoSelectedActionCreator,
     imageFourOnPageTwoSelectedActionCreator,
     inputOnPageTwoChangedActionCreator,
-    addLotOnPageTwoActionCreator
+    addLotOnPageTwoThunkCreator, resetLotDataOnPageTwoActionCreator
 } from '../redux/reducer';
 
-let mapStateToProps = (state) => {
+let mapStateToProps = (state, ownProps) => {
     return {
+        isAuth: state.state.isAuth,
         lotOnPageTwoData: state.state.lotOnPageTwoData,
-        pageTwoData: state.state.pageTwoData
+        pageTwoData: state.state.pageTwoData,
+        content: state.state.content[0],
+        cookies: ownProps.cookies
     }
 }
 
@@ -20,21 +23,28 @@ let mapDispatchToProps = (dispatch) => {
     return {
         imageOneOnPageTwoSelected: (e) => {
             dispatch(imageOneOnPageTwoSelectedActionCreator(e))
+            e.target.value = null
         },
         imageTwoOnPageTwoSelected: (e) => {
             dispatch(imageTwoOnPageTwoSelectedActionCreator(e))
+            e.target.value = null
         },
         imageThreeOnPageTwoSelected: (e) => {
             dispatch(imageThreeOnPageTwoSelectedActionCreator(e))
+            e.target.value = null
         },
         imageFourOnPageTwoSelected: (e) => {
             dispatch(imageFourOnPageTwoSelectedActionCreator(e))
+            e.target.value = null
         },
         inputOnPageTwoChanged: (e) => {
             dispatch(inputOnPageTwoChangedActionCreator(e))
         },
-        addLotOnPageTwo: () => {
-            dispatch(addLotOnPageTwoActionCreator())
+        resetLotDataOnPageTwo: () => {
+            dispatch(resetLotDataOnPageTwoActionCreator())
+        },
+        addLotOnPageTwo: (state, cookies) => {
+            dispatch(addLotOnPageTwoThunkCreator(state, cookies))
         }
     }
 }

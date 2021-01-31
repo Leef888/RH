@@ -1,15 +1,63 @@
 .Lot {
-    margin: 12px 6px;
-    background-color: transparent;
     border-top: 1px solid black;
+    border-radius: 4mm;
     border-bottom: 1px solid black;
-    height: 160px;
-    border-radius: 10mm;
-    display: grid;
+    margin: 12px 0px;
+    padding: 12px;
+    background-color: rgba(255, 255, 255, 0.3);
+    height: 960px;
+    display: flex;
+    flex-direction: column;
     
-        grid-template-areas: 
+    /*    grid-template-areas:
         "i_1 i_2 i_3 i_4 d";  
-            grid-template-columns: 2fr 2fr 2fr 2fr 8fr;
+            grid-template-columns: 2fr 2fr 2fr 2fr 8fr;*/
+}
+
+.dataBlock {
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    border-radius: 4px;
+    opacity: 100%;
+}
+.images {
+    display: flex;
+    flex-grow: 20;
+    flex-shrink: unset;
+    padding: 16px;
+}
+.description {
+    border-top: 1px solid black;
+    border-radius: 4mm;
+    border-bottom: 1px solid black;
+}
+
+/*.slide-container {
+    height: 850px;
+}*/
+
+.each-slide > div {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-repeat: no-repeat;
+    background-position-x: center;
+    background-position-y: center;
+    background-size: contain; /* cover/contain */
+    background-color: transparent;
+    min-height: 502px;
+    max-height: 850px;
+    border-radius: 2px;
+}
+
+.each-slide span {
+    padding: 20px;
+    font-size: 20px;
+    background: #efefef;
+    text-align: center;
 }
 
 .i_1 {

@@ -1,14 +1,25 @@
-import * as axios from 'axios';
-import { getLotsOnPageOne } from '../api/api';
+import {
+    getLotsOnPageOne,
+    getLotsOnPageTwo,
+    postLotOnPageOne,
+    postLotOnPageTwo,
+    deleteLotOnPageOne,
+    deleteLotOnPageTwo,
+    loginApi
+} from '../api/api';
 
+const EMAIL_INPUT_CHANGED = 'EMAIL_INPUT_CHANGED';
+const PASSWORD_INPUT_CHANGED = 'PASSWORD_INPUT_CHANGED';
+const CLEAR_ON_LOGIN_PAGE = 'CLEAR_ON_LOGIN_PAGE';
 const DISPLAY_HOME = 'DISPLAY_HOME';
 const DISPLAY_AUTH = 'DISPLAY_AUTH';
 const DISPLAY_PAGE_ONE = 'DISPLAY_PAGE_ONE';
+const SET_PAGE_ONE_DATA = 'SET_PAGE_ONE_DATA';
 const DISPLAY_PAGE_TWO = 'DISPLAY_PAGE_TWO';
+const SET_PAGE_TWO_DATA = 'SET_PAGE_TWO_DATA';
 const DISPLAY_CONTACTS = 'DISPLAY_CONTACTS';
-const ADD_LOT_ON_PAGE_ONE = 'ADD_LOT_ON_PAGE_ONE';
-const ADD_LOT_ON_PAGE_TWO = 'ADD_LOT_ON_PAGE_TWO';
-const DELETE_LOT = 'DELETE_LOT';
+const CLEAR_ON_PAGE_ONE = 'CLEAR_ON_PAGE_ONE';
+const CLEAR_ON_PAGE_TWO = 'CLEAR_ON_PAGE_TWO';
 const IMAGE_ONE_ON_PAGE_ONE_SELECTED = 'IMAGE_ONE_ON_PAGE_ONE_SELECTED';
 const IMAGE_TWO_ON_PAGE_ONE_SELECTED = 'IMAGE_TWO_ON_PAGE_ONE_SELECTED';
 const IMAGE_THREE_ON_PAGE_ONE_SELECTED = 'IMAGE_THREE_ON_PAGE_ONE_SELECTED';
@@ -19,11 +30,18 @@ const IMAGE_TWO_ON_PAGE_TWO_SELECTED = 'IMAGE_TWO_ON_PAGE_TWO_SELECTED';
 const IMAGE_THREE_ON_PAGE_TWO_SELECTED = 'IMAGE_THREE_ON_PAGE_TWO_SELECTED';
 const IMAGE_FOUR_ON_PAGE_TWO_SELECTED = 'IMAGE_FOUR_ON_PAGE_TWO_SELECTED';
 const INPUT_ON_PAGE_TWO_CHANGED = 'INPUT_ON_PAGE_TWO_CHANGED';
+const LOGIN = 'LOGIN';
+const LOGOUT = 'LOGOUT';
 
 let initialState = {
+    isAuth: false,
     content: ["Home"],
     pageOneData: [],
     pageTwoData: [],
+    authData: {
+        email: '',
+        password: ''
+    },
     lotOnPageOneData: {
         imageOne: null,
         imageOneURL: null,
@@ -33,7 +51,7 @@ let initialState = {
         imageThreeURL: null,
         imageFour: null,
         imageFourURL: null,
-        desc: null
+        desc: ''
     },
     lotOnPageTwoData: {
         imageOne: null,
@@ -44,247 +62,488 @@ let initialState = {
         imageThreeURL: null,
         imageFour: null,
         imageFourURL: null,
-        desc: null
+        desc: ''
     }
-}
+};
 
-const stateReduser = (state = initialState, action) => {
+const stateReducer = (state = initialState, action) => {
+    let stateCopy;
 
     switch (action.type) {
 
+        case LOGOUT:
+            stateCopy = {
+                ...state,
+                isAuth: false
+            };
+            return stateCopy;
+
+        case LOGIN:
+            stateCopy = {
+                ...state,
+                isAuth: true
+            };
+            return stateCopy;
+
         case IMAGE_ONE_ON_PAGE_ONE_SELECTED:
-            state.lotOnPageOneData.imageOne = null;
-            state.lotOnPageOneData.imageOneURL = null;
-            state.lotOnPageOneData.imageOne = action.e.target.files[0];
-            action.e.target.value = null;
-            state.lotOnPageOneData.imageOneURL = URL.createObjectURL(state.lotOnPageOneData.imageOne);
-            return state
+            stateCopy = {
+                ...state,
+                lotOnPageOneData: {
+                    ...state.lotOnPageOneData,
+                    imageOne: action.e.target.files[0]
+                }
+            };
+            stateCopy = {
+                ...stateCopy,
+                lotOnPageOneData: {
+                    ...stateCopy.lotOnPageOneData,
+                    imageOneURL: URL.createObjectURL(stateCopy.lotOnPageOneData.imageOne)
+                }
+            };
+            return stateCopy;
 
         case IMAGE_TWO_ON_PAGE_ONE_SELECTED:
-            state.lotOnPageOneData.imageTwo = null;
-            state.lotOnPageOneData.imageTwoURL = null;
-            state.lotOnPageOneData.imageTwo = action.e.target.files[0];
-            action.e.target.value = null;
-            state.lotOnPageOneData.imageTwoURL = URL.createObjectURL(state.lotOnPageOneData.imageTwo);
-            return state
+            stateCopy = {
+                ...state,
+                lotOnPageOneData: {
+                    ...state.lotOnPageOneData,
+                    imageTwo: action.e.target.files[0]
+                }
+            };
+            stateCopy = {
+                ...stateCopy,
+                lotOnPageOneData: {
+                    ...stateCopy.lotOnPageOneData,
+                    imageTwoURL: URL.createObjectURL(stateCopy.lotOnPageOneData.imageTwo)
+                }
+            };
+            return stateCopy;
 
         case IMAGE_THREE_ON_PAGE_ONE_SELECTED:
-            state.lotOnPageOneData.imageThree = null;
-            state.lotOnPageOneData.imageThreeURL = null;
-            state.lotOnPageOneData.imageThree = action.e.target.files[0];
-            action.e.target.value = null;
-            state.lotOnPageOneData.imageThreeURL = URL.createObjectURL(state.lotOnPageOneData.imageThree);
-            return state
+            stateCopy = {
+                ...state,
+                lotOnPageOneData: {
+                    ...state.lotOnPageOneData,
+                    imageThree: action.e.target.files[0]
+                }
+            };
+            stateCopy = {
+                ...stateCopy,
+                lotOnPageOneData: {
+                    ...stateCopy.lotOnPageOneData,
+                    imageThreeURL: URL.createObjectURL(stateCopy.lotOnPageOneData.imageThree)
+                }
+            };
+            return stateCopy;
 
         case IMAGE_FOUR_ON_PAGE_ONE_SELECTED:
-            state.lotOnPageOneData.imageFour = null;
-            state.lotOnPageOneData.imageFourURL = null;
-            state.lotOnPageOneData.imageFour = action.e.target.files[0];
-            action.e.target.value = null;
-            state.lotOnPageOneData.imageFourURL = URL.createObjectURL(state.lotOnPageOneData.imageFour);
-            return state
+            stateCopy = {
+                ...state,
+                lotOnPageOneData: {
+                    ...state.lotOnPageOneData,
+                    imageFour: action.e.target.files[0]
+                }
+            };
+            stateCopy = {
+                ...stateCopy,
+                lotOnPageOneData: {
+                    ...stateCopy.lotOnPageOneData,
+                    imageFourURL: URL.createObjectURL(stateCopy.lotOnPageOneData.imageFour)
+                }
+            };
+            return stateCopy;
 
         case INPUT_ON_PAGE_ONE_CHANGED:
-            state.lotOnPageOneData.desc = null;
-            state.lotOnPageOneData.desc = action.e.target.value;
-            return state
+            stateCopy = {
+                ...state,
+                lotOnPageOneData: {
+                    ...state.lotOnPageOneData,
+                    desc: action.e.target.value
+                }
+            };
+            return stateCopy;
+
+        case EMAIL_INPUT_CHANGED:
+            stateCopy = {
+                ...state,
+                authData: {
+                    ...state.authData,
+                    email: action.e.target.value
+                }
+            };
+            return stateCopy;
+
+        case PASSWORD_INPUT_CHANGED:
+            stateCopy = {
+                ...state,
+                authData: {
+                    ...state.authData,
+                    password: action.e.target.value
+                }
+            };
+            return stateCopy;
+
+        case CLEAR_ON_LOGIN_PAGE:
+            stateCopy = {
+                ...state,
+                authData: {
+                    ...state.authData,
+                    email: '',
+                    password: ''
+                }
+            };
+            return stateCopy;
 
         case IMAGE_ONE_ON_PAGE_TWO_SELECTED:
-            state.lotOnPageTwoData.imageOne = null;
-            state.lotOnPageTwoData.imageOneURL = null;
-            state.lotOnPageTwoData.imageOne = action.e.target.files[0];
-            action.e.target.value = null;
-            state.lotOnPageTwoData.imageOneURL = URL.createObjectURL(state.lotOnPageTwoData.imageOne);
-            return state
+            stateCopy = {
+                ...state,
+                lotOnPageTwoData: {
+                    ...state.lotOnPageTwoData,
+                    imageOne: action.e.target.files[0]
+                }
+            };
+            stateCopy = {
+                ...stateCopy,
+                lotOnPageTwoData: {
+                    ...stateCopy.lotOnPageTwoData,
+                    imageOneURL: URL.createObjectURL(stateCopy.lotOnPageTwoData.imageOne)
+                }
+            };
+            return stateCopy;
 
         case IMAGE_TWO_ON_PAGE_TWO_SELECTED:
-            state.lotOnPageTwoData.imageTwo = null;
-            state.lotOnPageTwoData.imageTwoURL = null;
-            state.lotOnPageTwoData.imageTwo = action.e.target.files[0];
-            action.e.target.value = null;
-            state.lotOnPageTwoData.imageTwoURL = URL.createObjectURL(state.lotOnPageTwoData.imageTwo);
-            return state
+            stateCopy = {
+                ...state,
+                lotOnPageTwoData: {
+                    ...state.lotOnPageTwoData,
+                    imageTwo: action.e.target.files[0]
+                }
+            };
+            stateCopy = {
+                ...stateCopy,
+                lotOnPageTwoData: {
+                    ...stateCopy.lotOnPageTwoData,
+                    imageTwoURL: URL.createObjectURL(stateCopy.lotOnPageTwoData.imageTwo)
+                }
+            };
+            return stateCopy;
 
         case IMAGE_THREE_ON_PAGE_TWO_SELECTED:
-            state.lotOnPageTwoData.imageThree = null;
-            state.lotOnPageTwoData.imageThreeURL = null;
-            state.lotOnPageTwoData.imageThree = action.e.target.files[0];
-            action.e.target.value = null;
-            state.lotOnPageTwoData.imageThreeURL = URL.createObjectURL(state.lotOnPageTwoData.imageThree);
-            return state
+            stateCopy = {
+                ...state,
+                lotOnPageTwoData: {
+                    ...state.lotOnPageTwoData,
+                    imageThree: action.e.target.files[0]
+                }
+            };
+            stateCopy = {
+                ...stateCopy,
+                lotOnPageTwoData: {
+                    ...stateCopy.lotOnPageTwoData,
+                    imageThreeURL: URL.createObjectURL(stateCopy.lotOnPageTwoData.imageThree)
+                }
+            };
+            return stateCopy;
 
         case IMAGE_FOUR_ON_PAGE_TWO_SELECTED:
-            state.lotOnPageTwoData.imageFour = null;
-            state.lotOnPageTwoData.imageFourURL = null;
-            state.lotOnPageTwoData.imageFour = action.e.target.files[0];
-            action.e.target.value = null;
-            state.lotOnPageTwoData.imageFourURL = URL.createObjectURL(state.lotOnPageTwoData.imageFour);
-            return state
+            stateCopy = {
+                ...state,
+                lotOnPageTwoData: {
+                    ...state.lotOnPageTwoData,
+                    imageFour: action.e.target.files[0]
+                }
+            };
+            stateCopy = {
+                ...stateCopy,
+                lotOnPageTwoData: {
+                    ...stateCopy.lotOnPageTwoData,
+                    imageFourURL: URL.createObjectURL(stateCopy.lotOnPageTwoData.imageFour)
+                }
+            };
+            return stateCopy;
 
         case INPUT_ON_PAGE_TWO_CHANGED:
-            state.lotOnPageTwoData.desc = null;
-            state.lotOnPageTwoData.desc = action.e.target.value;
-            return state
+            stateCopy = {
+                ...state,
+                lotOnPageTwoData: {
+                    ...state.lotOnPageTwoData,
+                    desc: action.e.target.value
+                }
+            };
+            return stateCopy;
 
         case DISPLAY_HOME:
-            state.content = [];
-            state.content.push("Home");
-            return state;
+            stateCopy = {
+                ...state,
+                content: ["Home"]
+            };
+            return stateCopy;
 
         case DISPLAY_AUTH:
-            state.content = [];
-            state.content.push("Author");
-            return state;
+            stateCopy = {
+                ...state,
+                content: ["Auth"]
+            };
+            return stateCopy;
 
         case DISPLAY_PAGE_ONE:
-            state.content = [];
-            state.content.push("PageOne");
-            getLotsOnPageOne().then(res => {
-                // let count = res.data.count;
-                state.pageOneData = res.data.stLots;
-            });
-            return state;
+            stateCopy = {
+                ...state,
+                content: ["PageOne"]
+            };
+            return stateCopy;
+
+        case SET_PAGE_ONE_DATA:
+            stateCopy = {
+                ...state,
+                pageOneData: action.data.stLots
+            };
+            return stateCopy;
 
         case DISPLAY_PAGE_TWO:
-            state.content = [];
-            state.content.push("PageTwo");
-            axios.get('http://localhost:3001/detLots/').then(res => {
-                // let count = res.data.count;
-                state.pageTwoData = res.data.detLots;
-            });
-            return state;
+            stateCopy = {
+                ...state,
+                content: ["PageTwo"]
+            };
+            return stateCopy;
+
+        case SET_PAGE_TWO_DATA:
+            stateCopy = {
+                ...state,
+                pageTwoData: action.data.detLots
+            };
+            return stateCopy;
 
         case DISPLAY_CONTACTS:
-            state.content = [];
-            state.content.push("Contacts");
-            return state;
+            stateCopy = {
+                ...state,
+                content: ["Contacts"]
+            };
+            return stateCopy;
 
-        case ADD_LOT_ON_PAGE_ONE:
-            let fdOne = new FormData();
-            fdOne.append('stLotImage', state.lotOnPageOneData.imageOne, state.lotOnPageOneData.imageOne.name)
-            fdOne.append('stLotImage', state.lotOnPageOneData.imageTwo, state.lotOnPageOneData.imageTwo.name)
-            fdOne.append('stLotImage', state.lotOnPageOneData.imageThree, state.lotOnPageOneData.imageThree.name)
-            fdOne.append('stLotImage', state.lotOnPageOneData.imageFour, state.lotOnPageOneData.imageFour.name)
-            fdOne.append('desc', state.lotOnPageOneData.desc)
-            axios.post('http://localhost:3001/stLots/', fdOne).then(res => {
-                if (res.status === 201) {
-                    state.lotOnPageOneData.imageOne = null;
-                    state.lotOnPageOneData.imageOneURL = null;
-                    state.lotOnPageOneData.imageTwo = null;
-                    state.lotOnPageOneData.imageTwoURL = null;
-                    state.lotOnPageOneData.imageThree = null;
-                    state.lotOnPageOneData.imageThreeURL = null;
-                    state.lotOnPageOneData.imageFour = null;
-                    state.lotOnPageOneData.imageFourURL = null;
-                    // displayDetLots();
-                    return state
+        case CLEAR_ON_PAGE_ONE:
+            stateCopy = {
+                ...state,
+                lotOnPageOneData: {
+                    ...state.lotOnPageOneData,
+                    imageOne: null,
+                    imageOneURL: null,
+                    imageTwo: null,
+                    imageTwoURL: null,
+                    imageThree: null,
+                    imageThreeURL: null,
+                    imageFour: null,
+                    imageFourURL: null,
+                    desc: ''
                 }
-            });
-            return state
+            };
+            return stateCopy;
 
-        case ADD_LOT_ON_PAGE_TWO:
-            let fdTwo = new FormData();
-            fdTwo.append('detLotImage', state.lotOnPageTwoData.imageOne, state.lotOnPageTwoData.imageOne.name)
-            fdTwo.append('detLotImage', state.lotOnPageTwoData.imageTwo, state.lotOnPageTwoData.imageTwo.name)
-            fdTwo.append('detLotImage', state.lotOnPageTwoData.imageThree, state.lotOnPageTwoData.imageThree.name)
-            fdTwo.append('detLotImage', state.lotOnPageTwoData.imageFour, state.lotOnPageTwoData.imageFour.name)
-            fdTwo.append('desc', state.lotOnPageTwoData.desc)
-            axios.post('http://localhost:3001/detLots/', fdTwo).then(res => {
-                if (res.status === 201) {
-                    state.lotOnPageTwoData.imageOne = null;
-                    state.lotOnPageTwoData.imageOneURL = null;
-                    state.lotOnPageTwoData.imageTwo = null;
-                    state.lotOnPageTwoData.imageTwoURL = null;
-                    state.lotOnPageTwoData.imageThree = null;
-                    state.lotOnPageTwoData.imageThreeURL = null;
-                    state.lotOnPageTwoData.imageFour = null;
-                    state.lotOnPageTwoData.imageFourURL = null;
-                    // displayDetLots();
-                    return state
+        case CLEAR_ON_PAGE_TWO:
+            stateCopy = {
+                ...state,
+                lotOnPageTwoData: {
+                    ...state.lotOnPageTwoData,
+                    imageOne: null,
+                    imageOneURL: null,
+                    imageTwo: null,
+                    imageTwoURL: null,
+                    imageThree: null,
+                    imageThreeURL: null,
+                    imageFour: null,
+                    imageFourURL: null,
+                    desc: ''
                 }
-            });
-            return state
-
-        case DELETE_LOT:
-            if (state.content[0] === "PageOne") {
-                let lotURL = 'http://localhost:3001/stLots/' + action.id
-                axios.delete(`${lotURL}`).then(res => {
-                    // displayStLots();
-                    alert(`Lot ${action.id} deleted!`)
-                    return state
-                })
-                return state
-            } else if (state.content[0] === "PageTwo") {
-                let lotURL = 'http://localhost:3001/detLots/' + action.id
-                axios.delete(`${lotURL}`).then(res => {
-                    // displayDetLots();
-                    alert(`Lot ${action.id} deleted!`)
-                    return state
-                })
-                return state
-            }
-        break
+            };
+            return stateCopy;
         default:
             return state
     }
-}
+};
 
-export default stateReduser;
+export default stateReducer;
+
+export const loginActionCreator = () => {
+    return {type: LOGIN}
+};
+export const logoutActionCreator = () => {
+    return {type: LOGOUT}
+};
 
 export const imageOneOnPageOneSelectedActionCreator = (e) => {
     return {type: IMAGE_ONE_ON_PAGE_ONE_SELECTED, e: e}
-}
+};
 export const imageTwoOnPageOneSelectedActionCreator = (e) => {
     return {type: IMAGE_TWO_ON_PAGE_ONE_SELECTED, e: e}
-}
+};
 export const imageThreeOnPageOneSelectedActionCreator = (e) => {
     return {type: IMAGE_THREE_ON_PAGE_ONE_SELECTED, e: e}
-}
+};
 export const imageFourOnPageOneSelectedActionCreator = (e) => {
     return {type: IMAGE_FOUR_ON_PAGE_ONE_SELECTED, e: e}
-}
+};
 export const inputOnPageOneChangedActionCreator = (e) => {
     return {type: INPUT_ON_PAGE_ONE_CHANGED, e: e}
-}
+};
+
+export const emailInputChangedActionCreator = (e) => {
+    return {type: EMAIL_INPUT_CHANGED, e: e}
+};
+export const passwordInputChangedActionCreator = (e) => {
+    return {type: PASSWORD_INPUT_CHANGED, e: e}
+};
+export const resetInputsOnLoginPageActionCreator = () => {
+    return {type: CLEAR_ON_LOGIN_PAGE}
+};
 
 export const imageOneOnPageTwoSelectedActionCreator = (e) => {
     return {type: IMAGE_ONE_ON_PAGE_TWO_SELECTED, e: e}
-}
+};
 export const imageTwoOnPageTwoSelectedActionCreator = (e) => {
     return {type: IMAGE_TWO_ON_PAGE_TWO_SELECTED, e: e}
-}
+};
 export const imageThreeOnPageTwoSelectedActionCreator = (e) => {
     return {type: IMAGE_THREE_ON_PAGE_TWO_SELECTED, e: e}
-}
+};
 export const imageFourOnPageTwoSelectedActionCreator = (e) => {
     return {type: IMAGE_FOUR_ON_PAGE_TWO_SELECTED, e: e}
-}
+};
 export const inputOnPageTwoChangedActionCreator = (e) => {
     return {type: INPUT_ON_PAGE_TWO_CHANGED, e: e}
-}
+};
 
 export const displayHomeActionCreator = () => {
     return {type: DISPLAY_HOME}
-}
+};
 export const displayAuthActionCreator = () => {
     return {type: DISPLAY_AUTH}
-}
+};
 export const displayPageOneActionCreator = () => {
     return {type: DISPLAY_PAGE_ONE}
-}
+};
+export const setPageOneDataActionCreator = (data) => {
+    return {type: SET_PAGE_ONE_DATA, data: data}
+};
 export const displayPageTwoActionCreator = () => {
     return {type: DISPLAY_PAGE_TWO}
-}
+};
+export const setPageTwoDataActionCreator = (data) => {
+    return {type: SET_PAGE_TWO_DATA, data: data}
+};
 export const displayContactsActionCreator = () => {
     return {type: DISPLAY_CONTACTS}
-}
+};
 
-export const addLotOnPageOneActionCreator = () => {
-    return {type: ADD_LOT_ON_PAGE_ONE}
-}
-export const addLotOnPageTwoActionCreator = () => {
-    return {type: ADD_LOT_ON_PAGE_TWO}
-}
-export const deleteLotActionCreator = (id) => {
-    return {type: DELETE_LOT, id: id}
-}
+export const resetLotDataOnPageOneActionCreator = () => {
+    return {type: CLEAR_ON_PAGE_ONE}
+};
+export const resetLotDataOnPageTwoActionCreator = () => {
+    return {type: CLEAR_ON_PAGE_TWO}
+};
+
+
+export const getLotsOnPageOneThunkCreator = () => {
+    return (dispatch) => {
+        getLotsOnPageOne().then(data => {
+            dispatch(setPageOneDataActionCreator(data))
+        });
+    }
+};
+export const getLotsOnPageTwoThunkCreator = () => {
+    return (dispatch) => {
+        getLotsOnPageTwo().then(data => {
+            dispatch(setPageTwoDataActionCreator(data))
+        });
+    }
+};
+
+export const addLotOnPageOneThunkCreator = (state, cookies) => {
+    return (dispatch) => {
+        let fdOne = new FormData();
+        if (state.lotOnPageOneData.imageOne != null
+            && state.lotOnPageOneData.imageTwo != null
+            && state.lotOnPageOneData.imageThree != null
+            && state.lotOnPageOneData.imageFour != null) {
+            fdOne.append('stLotImage', state.lotOnPageOneData.imageOne, state.lotOnPageOneData.imageOne.name);
+            fdOne.append('stLotImage', state.lotOnPageOneData.imageTwo, state.lotOnPageOneData.imageTwo.name);
+            fdOne.append('stLotImage', state.lotOnPageOneData.imageThree, state.lotOnPageOneData.imageThree.name);
+            fdOne.append('stLotImage', state.lotOnPageOneData.imageFour, state.lotOnPageOneData.imageFour.name);
+            fdOne.append('desc', state.lotOnPageOneData.desc);
+            postLotOnPageOne(fdOne, cookies).then(res => {
+                dispatch(getLotsOnPageOneThunkCreator());
+                if (res.status === 201) {
+                    dispatch(resetLotDataOnPageOneActionCreator())
+                } else {
+                    alert(res)
+                }
+            });
+        } else {
+            postLotOnPageOne(fdOne, cookies).then(res => {
+                alert(res)
+            })
+        }
+    }
+};
+export const addLotOnPageTwoThunkCreator = (state, cookies) => {
+    return (dispatch) => {
+        let fdTwo = new FormData();
+        if (state.lotOnPageTwoData.imageOne != null
+            && state.lotOnPageTwoData.imageTwo != null
+            && state.lotOnPageTwoData.imageThree != null
+            && state.lotOnPageTwoData.imageFour != null) {
+            fdTwo.append('detLotImage', state.lotOnPageTwoData.imageOne, state.lotOnPageTwoData.imageOne.name);
+            fdTwo.append('detLotImage', state.lotOnPageTwoData.imageTwo, state.lotOnPageTwoData.imageTwo.name);
+            fdTwo.append('detLotImage', state.lotOnPageTwoData.imageThree, state.lotOnPageTwoData.imageThree.name);
+            fdTwo.append('detLotImage', state.lotOnPageTwoData.imageFour, state.lotOnPageTwoData.imageFour.name);
+            fdTwo.append('desc', state.lotOnPageTwoData.desc);
+            postLotOnPageTwo(fdTwo, cookies).then(res => {
+                dispatch(getLotsOnPageTwoThunkCreator());
+                if (res.status === 201) {
+                    dispatch(resetLotDataOnPageTwoActionCreator())
+                } else {
+                    alert(res)
+                }
+            });
+        } else {
+            postLotOnPageTwo(fdTwo, cookies).then(res => {
+                alert(res)
+            })
+        }
+    }
+};
+
+export const deleteLotOnPageOneThunkCreator = (id, cookies) => {
+    return (dispatch) => {
+        let lotURL = 'http://localhost:3001/stLots/' + id;
+        deleteLotOnPageOne(lotURL, cookies).then(() => {
+            dispatch(getLotsOnPageOneThunkCreator());
+            alert(`Lot ${id} deleted!`)
+        })
+    }
+};
+export const deleteLotOnPageTwoThunkCreator = (id, cookies) => {
+    return (dispatch) => {
+        let lotURL = 'http://localhost:3001/detLots/' + id;
+        deleteLotOnPageTwo(lotURL, cookies).then(() => {
+            dispatch(getLotsOnPageTwoThunkCreator());
+            alert(`Lot ${id} deleted!`)
+        })
+    }
+};
+
+export const loginThunkCreator = (email, password, cookies) => {
+    return (dispatch) => {
+        let body = {
+            email: email,
+            password: password
+        };
+        loginApi(body).then(res => {
+            if (res.status === 200) {
+                cookies.set('token', res.data.token);
+                dispatch(loginActionCreator())
+            } else {
+                alert(res)
+            }
+        })
+    }
+};

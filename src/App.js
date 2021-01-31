@@ -5,19 +5,20 @@ import PageOneContainer from './components/PageOneContainer';
 import PageTwoContainer from './components/PageTwoContainer';
 import Contacts from './components/Contacts';
 import HomeContainer from './components/HomeContainer';
-import Login from './components/Login';
+import LoginContainer from './components/LoginContainer';
+import { withCookies } from 'react-cookie';
 
 function App(props) {
 
   let contentArea = props.state.content.map((name) => {
     if ((name) === "PageOne") {
-      return <PageOneContainer key='pageOne' dispatch={props.dispatch} state={props.state} />;
+      return <PageOneContainer cookies={props.cookies} key='pageOne' dispatch={props.dispatch} state={props.state} />;
     } else if ((name) === "PageTwo") {
-      return <PageTwoContainer key='pageTwo' dispatch={props.dispatch} state={props.state} />;
+      return <PageTwoContainer cookies={props.cookies} key='pageTwo' dispatch={props.dispatch} state={props.state} />;
     } else if ((name) === "Contacts") {
       return <Contacts key='contacts' />;
-    } else if ((name) === "Author") {
-      return <Login key='login' />;
+    } else if ((name) === "Auth") {
+      return <LoginContainer cookies={props.cookies} key='login' />;
     } else {
       return <HomeContainer key='home' dispatch={props.dispatch} />;
     }
@@ -33,4 +34,4 @@ function App(props) {
   );
 }
 
-export default App;
+export default withCookies(App);

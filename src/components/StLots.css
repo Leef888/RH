@@ -17,3 +17,7 @@
     position: absolute;
     top: 62px;*/
 }
+
+.selectedPage {
+    font-weight: bold;
+}

@@ -7,18 +7,22 @@ import {
     imageFourOnPageOneSelectedActionCreator,
     inputOnPageOneChangedActionCreator,
     addLotOnPageOneThunkCreator,
-    resetLotDataOnPageOneActionCreator
+    resetLotDataOnPageOneActionCreator, setCurrentPageOnPageOneActionCreator, getLotsOnPageOneThunkCreator
 } from '../redux/reducer';
 
 let mapStateToProps = (state, ownProps) => {
     return {
+        currentPageOnPageOne: state.state.currentPageOnPageOne,
+        pageSize: state.state.pageSize,
+        totalCountOnPageOne: state.state.totalCountOnPageOne,
         isAuth: state.state.isAuth,
         lotOnPageOneData: state.state.lotOnPageOneData,
         pageOneData: state.state.pageOneData,
         content: state.state.content[0],
-        cookies: ownProps.cookies
+        cookies: ownProps.cookies,
+        isFetching: state.state.isFetching
     }
-}
+};
 
 let mapDispatchToProps = (dispatch) => {
     return {
@@ -46,9 +50,13 @@ let mapDispatchToProps = (dispatch) => {
         },
         addLotOnPageOne: (state, cookies) => {
             dispatch(addLotOnPageOneThunkCreator(state, cookies))
+        },
+        setCurrentPageOnPageOne: (pageNumber, pageSize) => {
+            dispatch(getLotsOnPageOneThunkCreator(pageNumber, pageSize));
+            dispatch(setCurrentPageOnPageOneActionCreator(pageNumber))
         }
     }
-}
+};
 
 const PageOneContainer = connect(mapStateToProps, mapDispatchToProps)(PageOne);
 

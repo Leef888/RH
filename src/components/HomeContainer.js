@@ -9,18 +9,22 @@ import {
 } from '../redux/reducer';
 
 let mapStateToProps = (state) => {
-    return {}
+    return {
+        currentPageOnPageOne: state.state.currentPageOnPageOne,
+        currentPageOnPageTwo: state.state.currentPageOnPageTwo,
+        pageSize: state.state.pageSize
+    }
 }
 
 let mapDispatchToProps = (dispatch) => {
     return {
-        displayPageOne: () => {
-            dispatch(displayPageOneActionCreator())
-            dispatch(getLotsOnPageOneThunkCreator())
+        displayPageOne: (currentPageOnPageOne, pageSize) => {
+            dispatch(displayPageOneActionCreator());
+            dispatch(getLotsOnPageOneThunkCreator(currentPageOnPageOne, pageSize))
         },
-        displayPageTwo: () => {
-            dispatch(displayPageTwoActionCreator())
-            dispatch(getLotsOnPageTwoThunkCreator())
+        displayPageTwo: (currentPageOnPageTwo, pageSize) => {
+            dispatch(displayPageTwoActionCreator());
+            dispatch(getLotsOnPageTwoThunkCreator(currentPageOnPageTwo, pageSize))
         },
         displayContacts: () => {
             dispatch(displayContactsActionCreator())

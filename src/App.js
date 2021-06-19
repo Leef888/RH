@@ -20,7 +20,7 @@ function App(props) {
     } else if ((name) === "Auth") {
       return <LoginContainer cookies={props.cookies} key='login' />;
     } else {
-      return <HomeContainer key='home' dispatch={props.dispatch} />;
+      return <HomeContainer key='home' dispatch={props.dispatch} state={props.state} />;
     }
   });
 

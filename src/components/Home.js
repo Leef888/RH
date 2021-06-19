@@ -15,7 +15,9 @@ function Home(props) {
             Ми можемо запропонувати Вам оглянути вибір з пральних машин,
             які були в користуванні, відремонтованих нами на сторінці:
           </p>
-          <button className="button" onClick={props.displayPageOne}>Page One</button>
+          <button className="button"
+                  onClick={() => {props.displayPageOne(props.currentPageOnPageOne, props.pageSize)}}
+          >Page One</button>
         </h1>
       </div>
       <div className="p_2">
@@ -24,7 +26,9 @@ function Home(props) {
             Якщо Вам потрібно придбати деталі до пральних машин,
             список наявних ви знайдете на сторінці:
           </p>
-          <button className="button" onClick={props.displayPageTwo}>Page Two</button>
+          <button className="button"
+                  onClick={() => {props.displayPageTwo(props.currentPageOnPageTwo, props.pageSize)}}
+          >Page Two</button>
         </h1>
       </div>
       <div className="p_3">

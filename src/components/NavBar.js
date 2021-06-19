@@ -37,10 +37,12 @@ function NavBar(props) {
                 <ReactBootStrap.Nav className="ml-auto">
                     <ReactBootStrap.Nav.Link href="#"><button
                         className="navBarNavButtons"
-                        onClick={props.displayPageOne}>Page One</button></ReactBootStrap.Nav.Link>
+                        onClick={() => {props.displayPageOne(props.currentPageOnPageOne, props.pageSize)}}
+                    >Page One</button></ReactBootStrap.Nav.Link>
                     <ReactBootStrap.Nav.Link href="#"><button
                         className="navBarNavButtons"
-                        onClick={props.displayPageTwo}>Page Two</button></ReactBootStrap.Nav.Link>
+                        onClick={() => {props.displayPageTwo(props.currentPageOnPageTwo, props.pageSize)}}
+                    >Page Two</button></ReactBootStrap.Nav.Link>
                     <ReactBootStrap.Nav.Link href="#"><button
                         className="navBarNavButtons"
                         onClick={props.displayContacts}>Contacts</button></ReactBootStrap.Nav.Link>

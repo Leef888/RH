@@ -1,6 +1,8 @@
 import React from 'react';
 import './StLots.css';
 import LotContainer from './components/LotContainer';
+import preloader from '../assets/preloader.svg';
+import Paginator from "./components/Paginator";
 
 function PageOne(props) {
 
@@ -52,7 +54,18 @@ function PageOne(props) {
                     </button>
                 </div>
             </div> : null}
-            {lotsArea}
+            <div className="intro">Intro</div>
+            <Paginator
+                setCurrentPage={props.setCurrentPageOnPageOne}
+                totalCount={props.totalCountOnPageOne}
+                pageSize={props.pageSize}
+                currentPage={props.currentPageOnPageOne}
+            />
+            <div className="intro">Intro</div>
+            {props.isFetching ?
+                <div>
+                    <img src={preloader} alt="" />
+                </div> : lotsArea}
             <div className="">end</div>
         </div>
     )

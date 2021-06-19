@@ -12,7 +12,10 @@ import {
 
 let mapStateToProps = (state) => {
     return {
-        isAuth: state.state.isAuth
+        isAuth: state.state.isAuth,
+        currentPageOnPageOne: state.state.currentPageOnPageOne,
+        currentPageOnPageTwo: state.state.currentPageOnPageTwo,
+        pageSize: state.state.pageSize
     }
 };
 
@@ -24,13 +27,13 @@ let mapDispatchToProps = (dispatch) => {
         logout: () => {
             dispatch(logoutActionCreator())
         },
-        displayPageOne: () => {
+        displayPageOne: (currentPageOnPageOne, pageSize) => {
             dispatch(displayPageOneActionCreator());
-            dispatch(getLotsOnPageOneThunkCreator())
+            dispatch(getLotsOnPageOneThunkCreator(currentPageOnPageOne, pageSize))
         },
-        displayPageTwo: () => {
+        displayPageTwo: (currentPageOnPageTwo, pageSize) => {
             dispatch(displayPageTwoActionCreator());
-            dispatch(getLotsOnPageTwoThunkCreator())
+            dispatch(getLotsOnPageTwoThunkCreator(currentPageOnPageTwo, pageSize))
         },
         displayContacts: () => {
             dispatch(displayContactsActionCreator())

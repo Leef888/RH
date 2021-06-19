@@ -32,12 +32,23 @@ const IMAGE_FOUR_ON_PAGE_TWO_SELECTED = 'IMAGE_FOUR_ON_PAGE_TWO_SELECTED';
 const INPUT_ON_PAGE_TWO_CHANGED = 'INPUT_ON_PAGE_TWO_CHANGED';
 const LOGIN = 'LOGIN';
 const LOGOUT = 'LOGOUT';
+const SET_CURRENT_PAGE_ON_PAGE_ONE = 'SET_CURRENT_PAGE_ON_PAGE_ONE';
+const SET_CURRENT_PAGE_ON_PAGE_TWO = 'SET_CURRENT_PAGE_ON_PAGE_TWO';
+const SET_IS_FETCHING = 'SET_IS_FETCHING';
 
 let initialState = {
+    isFetching: false,
     isAuth: false,
     content: ["Home"],
+    pageSize: 5,
     pageOneData: [],
+    totalCountOnPageOne: null,
+    //pagesOnPageOne: null,
+    currentPageOnPageOne: 1,
     pageTwoData: [],
+    totalCountOnPageTwo: null,
+    //pagesOnPageTwo: null,
+    currentPageOnPageTwo: 1,
     authData: {
         email: '',
         password: ''
@@ -294,9 +305,34 @@ const stateReducer = (state = initialState, action) => {
             return stateCopy;
 
         case SET_PAGE_ONE_DATA:
+            if (action.data.totalCount !== null) {
+                stateCopy = {
+                    ...state,
+                    pageOneData: action.data.stLots,
+                    totalCountOnPageOne: action.data.totalCount
+                };
+
+                return stateCopy;
+            } else {
+                stateCopy = {
+                    ...state,
+                    pageOneData: action.data.stLots
+                };
+
+                return stateCopy;
+            }
+
+        case SET_CURRENT_PAGE_ON_PAGE_ONE:
             stateCopy = {
                 ...state,
-                pageOneData: action.data.stLots
+                currentPageOnPageOne: action.currentPageOnPageOne
+            };
+            return stateCopy;
+
+        case SET_CURRENT_PAGE_ON_PAGE_TWO:
+            stateCopy = {
+                ...state,
+                currentPageOnPageTwo: action.currentPageOnPageTwo
             };
             return stateCopy;
 
@@ -308,11 +344,22 @@ const stateReducer = (state = initialState, action) => {
             return stateCopy;
 
         case SET_PAGE_TWO_DATA:
-            stateCopy = {
-                ...state,
-                pageTwoData: action.data.detLots
-            };
-            return stateCopy;
+            if (action.data.totalCount !== null) {
+                stateCopy = {
+                    ...state,
+                    pageTwoData: action.data.detLots,
+                    totalCountOnPageTwo: action.data.totalCount
+                };
+
+                return stateCopy;
+            } else {
+                stateCopy = {
+                    ...state,
+                    pageTwoData: action.data.detLots
+                };
+
+                return stateCopy;
+            }
 
         case DISPLAY_CONTACTS:
             stateCopy = {
@@ -356,12 +403,23 @@ const stateReducer = (state = initialState, action) => {
                 }
             };
             return stateCopy;
+
+        case SET_IS_FETCHING:
+            stateCopy = {
+                ...state,
+                isFetching: action.isFetching
+            };
+            return stateCopy;
         default:
             return state
     }
 };
 
 export default stateReducer;
+
+export const setIsFetchingActionCrteator = (isFetching) => {
+    return {type: SET_IS_FETCHING, isFetching: isFetching}
+};
 
 export const loginActionCreator = () => {
     return {type: LOGIN}
@@ -441,18 +499,29 @@ export const resetLotDataOnPageTwoActionCreator = () => {
     return {type: CLEAR_ON_PAGE_TWO}
 };
 
+export const setCurrentPageOnPageOneActionCreator = (currentPageOnPageOne) => {
+    return {type: SET_CURRENT_PAGE_ON_PAGE_ONE, currentPageOnPageOne}
+};
+export const setCurrentPageOnPageTwoActionCreator = (currentPageOnPageTwo) => {
+    return {type: SET_CURRENT_PAGE_ON_PAGE_TWO, currentPageOnPageTwo}
+};
 
-export const getLotsOnPageOneThunkCreator = () => {
+
+export const getLotsOnPageOneThunkCreator = (currentPageOnPageOne, pageSize) => {
     return (dispatch) => {
-        getLotsOnPageOne().then(data => {
-            dispatch(setPageOneDataActionCreator(data))
+        dispatch(setIsFetchingActionCrteator(true));
+        getLotsOnPageOne(currentPageOnPageOne, pageSize).then(data => {
+            dispatch(setPageOneDataActionCreator(data));
+            dispatch(setIsFetchingActionCrteator(false));
         });
     }
 };
-export const getLotsOnPageTwoThunkCreator = () => {
+export const getLotsOnPageTwoThunkCreator = (currentPageOnPageTwo, pageSize) => {
     return (dispatch) => {
-        getLotsOnPageTwo().then(data => {
-            dispatch(setPageTwoDataActionCreator(data))
+        dispatch(setIsFetchingActionCrteator(true));
+        getLotsOnPageTwo(currentPageOnPageTwo, pageSize).then(data => {
+            dispatch(setPageTwoDataActionCreator(data));
+            dispatch(setIsFetchingActionCrteator(false));
         });
     }
 };

@@ -1,6 +1,8 @@
 import React from 'react';
 import './pageTwo.css';
 import LotContainer from './components/LotContainer';
+import Paginator from "./components/Paginator";
+import preloader from "../assets/preloader.svg";
 
 function PageTwo(props) {
 
@@ -52,7 +54,17 @@ function PageTwo(props) {
                     </button>
                 </div>
             </div> : null}
-            {lotsArea}
+            <div className="intro">Intro</div>
+            <Paginator
+                setCurrentPage={props.setCurrentPageOnPageTwo}
+                totalCount={props.totalCountOnPageTwo}
+                pageSize={props.pageSize}
+                currentPage={props.currentPageOnPageTwo}
+            />
+            {props.isFetching ?
+                <div>
+                    <img src={preloader} alt="" />
+                </div> : lotsArea}
             <div className="">end</div>
         </div>
     )
